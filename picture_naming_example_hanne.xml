@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<experiment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://frinexbuild.mpi.nl//frinex.xsd" appNameDisplay="Example" appNameInternal="picture_naming_example_hanne" textFontSize="17" rotatable="true" showMenuBar="false" defaultScale="1.0" isScalable="true" preserveLastState="true" backgroundColour="#FFFFFF" complementColour0="#EAC3A3" complementColour1="#9D7B5E" complementColour2="#C69E7C" complementColour3="#FFEDDE" complementColour4="#FFFDFB"  primaryColour0="#628D8D" primaryColour1="#385E5E" primaryColour2="#4A7777" primaryColour3="#96ADAD" primaryColour4="#D5D8D8">	
+	
+	<deployment publishDate="2021-25-03"
+						expiryDate="2022-11-03"
+						isWebApp="true"
+						isDesktop="false"
+						isiOS="false"
+						isAndroid="false"
+						state="staging"/>	
+	
+	<scss>
+ 	</scss>	
+	
+	<!-- ###################################################################### -->
+	
+ 	<metadata>
+		<field controlledMessage="Use at least 1 character" controlledRegex=".'{'1,'}'" postName="demographics1" registrationField="First demographics question here"/>
+	</metadata>	
+	
+	<!-- ###################################################################### -->
+	
+	<presenter self="welcomeScreen" type="menu">	
+	
+		<htmlText featureText="Welcome to this experiment!"/>
+		<targetButton featureText="Next" target="infoScreen"/>		
+		
+	</presenter>
+	
+	<!-- ###################################################################### -->
+	
+	<presenter self="infoScreen" type="menu">	
+	
+		<htmlText featureText="Information for participants"/>
+		<targetButton featureText="Next" target="informedConsent"/>		
+		
+	</presenter>
+	
+	<!-- ###################################################################### -->
+	
+	<presenter self="informedConsent" type="menu" next="demographics">	
+	
+		<htmlText featureText="Informed consent text here"/>
+		<targetButton featureText="I agree" target="demographics"/>	
+		
+	</presenter>
+	
+	<!-- ###################################################################### -->
+	
+	<presenter self="demographics" type="metadata" next="stimuliScreen">
+	
+		<metadataField fieldName="demographics1"/>	
+		
+		<saveMetadataButton featureText="Next" sendData="true" networkErrorMessage="Network error">
+			<onError/>
+			<onSuccess>
+				<gotoNextPresenter/>
+			</onSuccess>			
+		</saveMetadataButton>
+		
+	</presenter>
+	
+	<!-- ############################### TRIAL STRUCTURE PRACTICE ####################################### -->
+	
+	<presenter self="stimuliScreen" type="stimulus" next="admin">	
+		<loadStimulus>	
+		
+			<hasMoreStimulus>			
+				<stimulusImage msToNext="500">							
+					<mediaLoaded>													
+						<nextStimulus repeatIncorrect="false"/>									
+					</mediaLoaded>
+					<mediaLoadFailed>
+						<htmlText featureText="Cannot load the image; check your connection and/or the image file"/>
+					</mediaLoadFailed>	
+				</stimulusImage>	
+			</hasMoreStimulus>	
+			
+			<endOfStimulus>
+			</endOfStimulus>	
+			
+			<randomGrouping>
+			</randomGrouping>
+			
+			<stimuli>
+			</stimuli>
+			
+		</loadStimulus>			
+	</presenter>
+		
+	<!-- ###################################################################### -->
+	
+	<presenter self="admin" type="transmission">
+		<htmlText featureText="This is the end of the experiment. Thank you for your participation!"/>
+		<sendMetadata>
+			<onSuccess> 					
+				<htmlText featureText="The results have been sent!"/>
+			</onSuccess>
+			<onError> 
+				<htmlText featureText="Cannot connect to the server"/>			
+			</onError> 
+		</sendMetadata>		
+	</presenter>
+	
+	<!--######## DEBUG ##########-->
+
+	<presenter menuLabel="About" self="about" title="about" type="debug">
+		<versionData />
+		<eraseLocalStorageButton />
+		<localStorageData />
+	</presenter>   
+
+	<!-- ###################################################################### -->
+	
+	<stimuli>
+		<stimulus identifier="trial1" imagePath="cream.png"/>
+		<stimulus identifier="trial2" imagePath="butter_.png"/>
+		<stimulus identifier="trial3" imagePath="crayon.png"/>
+		<stimulus identifier="trial4" imagePath="book.png"/>
+		<stimulus identifier="trial5" imagePath="sandwich.png"/>
+	</stimuli>
+
+</experiment>
